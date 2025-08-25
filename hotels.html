@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotels</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            position: absolute;
+            left: 10vh;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .hotel-cards {
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .hotel-card {
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            width: 1000px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .hotel-card img {
+            width: 30vh;
+            height: 20vh;
+            border-radius: 10px;
+        }
+        .hotel-card{
+            position: relative;
+        }
+        .hotel-card h3{
+            position: absolute;
+            left: 40vh;
+            bottom:13vh;
+        }
+        .hotel-card p{
+            position:absolute;
+            left: 40vh;
+            bottom: 9vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2 id="heading">Hotels</h2>
+        <div class="hotel-cards" id="hotelList"></div>
+    </div>
+    <script>
+
+        const params = new URLSearchParams(window.location.search);
+        const destination = params.get('destination') || 'Unknown';
+
+        document.getElementById("heading").textContent = `Hotels in ${destination}`;
+
+        const hotels = [
+            { name: "Hotel Sunshine", price: "₹3,499", img: "hyd-hotel2-interior3.avif", button:"Book Now" },
+            { name: "Grand Palace", price: "₹4,299", img: "hyd-hotel1.avif", button:"Book Now" },
+            { name: "Stay Inn", price: "₹2,999", img: "hyd-hotel3-interior.avif", button:"Book Now" }
+        ];
+
+        const hotelList = document.getElementById("hotelList");
+        hotels.forEach(hotel => {
+            const card = document.createElement("div");
+            card.className = "hotel-card";
+            card.innerHTML = `
+                <img src="${hotel.img}" alt="${hotel.name}">
+                <h3>${hotel.name}</h3>
+                <p>${hotel.price} / night</p>
+                <p ${hotel.button}></p> `;
+
+
+            hotelList.appendChild(card);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GoStay | Personality Match</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right top, #ffecd2, #fcb69f);
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-container img {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .logo-container span {
+            font-weight: 600;
+            font-size: 2rem;
+            color: #333;
+        }
+
+        .hotel-name {
+            position: relative;
+            right: 1vw;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #0077cc;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #ff5e57;
+        }
+
+        .container-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .quiz-container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .quiz-container h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+            color: #2b2b2b;
+            background: linear-gradient(90deg, #007cf0, #00dfd8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .question {
+            margin-bottom: 25px;
+        }
+
+        .question-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #444;
+        }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .option-card {
+            flex: 1 1 45%;
+            background: linear-gradient(145deg, #f0f0f0, #ffffff);
+            padding: 14px;
+            border-radius: 14px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #333;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        .option-card:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(to right, #e0ecff, #f8faff);
+            border-color: #00b8d9;
+        }
+
+        .option-card.active {
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+            color: white;
+            border-color: transparent;
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            margin-top: 20px;
+            background: linear-gradient(to right, #16a085, #f4d03f);
+            color: #fff;
+            font-size: 1.05rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.02);
+        }
+
+        .result-box {
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 1.05rem;
+            color: #007aff;
+        }
+
+        @media (max-width: 600px) {
+            .option-card {
+                flex: 1 1 100%;
+            }
+
+            .quiz-container {
+                padding: 20px;
+            }
+
+            .quiz-container h2 {
+                font-size: 1.4rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                align-items: flex-end;
+                gap: 8px;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="logoforweb.png" alt="logo" style="position: relative; width: 6vw;height: 4vw; z-index: 999;" />
+            <span class="hotel-name">GoStay.com</span>
+        </div>
+        <nav class="nav-links">
+            <a href="#">Your Trips</a>
+            <a href="#">Login</a>
+            <a href="#">Sign In</a>
+        </nav>
+    </header>
+
+    <div class="container-wrapper">
+        <div class="quiz-container">
+            <h2>Find Your Perfect Hotel Match</h2>
+
+            <form id="premiumQuiz">
+                <div class="question">
+                    <div class="question-title">1. What's your dream vacation style?</div>
+                    <div class="options" data-question="q1">
+                        <div class="option-card" data-value="zen">Peaceful and Natural</div>
+                        <div class="option-card" data-value="adventure">Adventurous and Active</div>
+                        <div class="option-card" data-value="urban">Modern City Life</div>
+                        <div class="option-card" data-value="aesthetic">Elegant & Boutique</div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-title">2. What kind of evening do you enjoy?</div>
+                    <div class="options" data-question="q2">
+                        <div class="option-card" data-value="zen">Calm & Relaxing</div>
+                        <div class="option-card" data-value="urban">Dining Out & Socializing</div>
+                        <div class="option-card" data-value="adventure">Exploring Outdoors</div>
+                        <div class="option-card" data-value="aesthetic">Museums, Art & Culture</div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-title">3. What do you prioritize in a hotel?</div>
+                    <div class="options" data-question="q3">
+                        <div class="option-card" data-value="zen">Tranquility & Wellness</div>
+                        <div class="option-card" data-value="urban">Accessibility & Convenience</div>
+                        <div class="option-card" data-value="aesthetic">Aesthetic Design</div>
+                        <div class="option-card" data-value="adventure">Nature-Focused</div>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">Match My Hotel</button>
+            </form>
+
+            <div class="result-box" id="resultBox"></div>
+            <div id="loadingSpinner" style="display: none; text-align:center; margin-top: 20px;">
+                <img src="https://i.gifer.com/ZZ5H.gif" alt="Loading..." style="width: 50px;">
+                <div style="color:#444; font-weight:500;">Finding your match...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const selections = {};
+
+        document.querySelectorAll('.options').forEach(optionGroup => {
+            const qName = optionGroup.getAttribute('data-question');
+            optionGroup.querySelectorAll('.option-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    optionGroup.querySelectorAll('.option-card').forEach(c => c.classList.remove('active'));
+                    card.classList.add('active');
+                    selections[qName] = card.getAttribute('data-value');
+                });
+            });
+        });
+
+        document.getElementById('premiumQuiz').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            if (Object.keys(selections).length < 3) {
+                document.getElementById('resultBox').innerText = "Please complete all questions.";
+                return;
+            }
+
+            const scores = { zen: 0, adventure: 0, urban: 0, aesthetic: 0 };
+            Object.values(selections).forEach(val => scores[val]++);
+
+            const personality = Object.entries(scores).reduce((a, b) => a[1] > b[1] ? a : b)[0];
+
+            // Show mood result (optional)
+            document.getElementById('resultBox').innerText = `Your mood: ${personality.toUpperCase()}`;
+
+ 
+            document.getElementById('resultBox').style.display = 'none';
+            document.getElementById('loadingSpinner').style.display = 'block';
+
+            localStorage.setItem("userPersonality", personality);
+
+            setTimeout(() => {
+                window.location.href = `index.html?personality=${personality}`;
+            }, 100);
+        });
+
+    </script>
+
+</body>
+
+</html>

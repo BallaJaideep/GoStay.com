@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hotel Details — Premium Enhanced</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7f7fb;
+      --card: #ffffff;
+      --ink: #1f2937;
+      --muted: #6b7280;
+      --primary: #0ea5e9;
+      /* premium blue */
+      --accent: #f59e0b;
+      /* view deal orange */
+      --ok: #10b981;
+      --danger: #ef4444;
+      --shadow: 0 10px 25px rgba(0, 0, 0, .08);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--ink);
+    }
+
+    /* ================= HEADER / STICKY BAR ================= */
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .hotel-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .hotel-meta {
+      min-width: 0;
+    }
+
+    .hotel-name {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: .2px;
+    }
+
+    .hotel-address {
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .review {
+      font-size: 14px;
+      color: var(--ok);
+      margin-top: 6px;
+    }
+
+    .price-section {
+      text-align: right;
+    }
+
+    .price {
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .per-night {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .action-buttons {
+      margin-top: 10px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn {
+      border: none;
+      background: none;
+      padding: 12px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 16px;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #ff7f50, #ff4500);
+      color: #fff;
+      box-shadow: 0px 4px 10px rgba(255, 69, 0, 0.3);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #ff9b73, #ff6347);
+      transform: translateY(-2px);
+      box-shadow: 0px 6px 14px rgba(255, 69, 0, 0.4);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0px);
+      box-shadow: 0px 3px 8px rgba(255, 69, 0, 0.3);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      background: #ccc;
+      box-shadow: none;
+    }
+
+
+    .icon-btn {
+      background: #fff;
+      border-radius: 999px;
+      padding: 8px;
+      box-shadow: var(--shadow);
+      display: grid;
+      place-items: center;
+    }
+
+    .icon {
+      width: 24px;
+      height: 24px;
+      display: block;
+      color: #555;
+      transition: transform .2s ease, color .2s ease;
+    }
+
+    .icon-btn:hover .icon {
+      transform: scale(1.06);
+      color: var(--primary);
+    }
+
+    /* Heart icon states */
+    .heart path {
+      fill: #c7c7c7;
+      transition: fill .25s ease, transform .2s ease;
+    }
+
+    .heart.liked path {
+      fill: var(--danger);
+    }
+
+    /* ================= IMAGE GALLERY ================= */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+    }
+
+    .images-section {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 12px;
+      margin-top: 20px;
+      align-items: start;
+    }
+
+    .main-wrap {
+      position: relative;
+    }
+
+    .main-image {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 12px;
+      display: block;
+      background: #e5e7eb;
+    }
+
+    /* NEW: skeleton shimmer while image loads */
+    .skeleton {
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .skeleton::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, #eee 20%, #f5f5f5 40%, #eee 60%);
+      background-size: 200% 100%;
+      animation: shimmer 1.2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: 200% 0
+      }
+
+      100% {
+        background-position: -200% 0
+      }
+    }
+
+    .side-images {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      width: 100%;
+    }
+
+    .thumb {
+      height: 200px;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform .2s ease, outline-color .2s ease;
+      background: #e5e7eb;
+    }
+
+    .thumb:hover {
+      transform: scale(1.03);
+    }
+
+    .thumb:focus {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    /* NEW: gallery nav arrows */
+    .nav-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, .9);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      box-shadow: var(--shadow);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+    }
+
+    .nav-arrow.left {
+      left: 10px;
+    }
+
+    .nav-arrow.right {
+      right: 10px;
+    }
+
+    /* ================= LIGHTBOX ================= */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      z-index: 50;
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 95vw;
+      max-height: 85vh;
+      border-radius: 12px;
+    }
+
+    .lightbox .close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(255, 255, 255, .95);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+
+    /* ================= TOAST ================= */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #111827;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s ease, transform .25s ease;
+      z-index: 60;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-6px);
+    }
+
+    /* ================= RESPONSIVE ================= */
+    @media (max-width: 1024px) {
+      .images-section {
+        grid-template-columns: 1fr;
+      }
+
+      .main-image {
+        height: 360px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hotel-name {
+        font-size: 22px;
+      }
+
+      .price {
+        font-size: 26px;
+      }
+
+      .main-image {
+        height: 280px;
+      }
+
+      .thumb {
+        height: 120px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <header class="hotel-header">
+      <div class="hotel-meta">
+        <div class="hotel-name">SkyNest Boutique Hostel</div>
+        <div class="hotel-address">Hyderabad • 2.5 km from Charminar</div>
+        <div class="review">⭐ 4.7 • Excellent</div>
+      </div>
+      <div class="price-section">
+        <div class="price">₹899</div>
+        <div class="per-night">per night</div>
+        <div class="action-buttons">
+          <!-- NEW: premium share icon with animation-ready strokes -->
+          <button class="icon-btn" id="shareBtn" aria-label="Share">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 10v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M12 4v10M8.5 7.5L12 4l3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </button>
+
+          <!-- UPDATED: heart button (solid fill, no border) + localStorage persistence -->
+          <button class="icon-btn" id="wishBtn" aria-label="Add to wishlist">
+            <svg class="icon heart" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z">
+              </path>
+            </svg>
+          </button>
+
+          <button class="btn btn-primary view-deal-btn" data-name="Grand Palace Hotel" data-price="₹4500"
+            data-image="grand-palace.jpg">
+            View Deal
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ================= IMAGE GALLERY CARD ================= -->
+    <section class="card images-section" aria-label="Hotel image gallery">
+      <figure class="main-wrap">
+        <!-- NEW: skeleton while main image loads -->
+        <div class="skeleton" id="mainSkeleton" aria-hidden="true"></div>
+        <img id="mainImage" class="main-image" src="kerala-varkala-hotel2-interior5.jpg" alt="Main hotel view"
+          loading="eager" />
+
+        <!-- NEW: navigation arrows -->
+        <button class="nav-arrow left" id="prevBtn" aria-label="Previous image">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M15 19l-7-7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </button>
+        <button class="nav-arrow right" id="nextBtn" aria-label="Next image">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </button>
+      </figure>
+
+      <div class="side-images" id="thumbGrid">
+        <img class="thumb" src="bangalore-hotel1.webp" alt="Lobby" loading="lazy" />
+        <img class="thumb" src="bangalore-hotel2-interior2.jpg" alt="Room" loading="lazy" />
+        <img class="thumb" src="chennai-hotel1-interior3.jpg" alt="Dining" loading="lazy" />
+        <img class="thumb" src="goa-hotel1-interior4.avif" alt="Pool" loading="lazy" />
+      </div>
+    </section>
+
+    <!-- NEW: Lightbox modal -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged image viewer">
+      <button class="close" id="lightboxClose" aria-label="Close">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 6l12 12M6 18L18 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </button>
+      <img id="lightboxImg" alt="Enlarged hotel image" />
+    </div>
+
+    <!-- NEW: Toast -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div>
+
+  <script>
+    // ========= UTIL: Toast =========
+    function showToast(msg, timeout = 1800) {
+      const el = document.getElementById('toast');
+      el.textContent = msg; el.classList.add('show');
+      setTimeout(() => el.classList.remove('show'), timeout);
+    }
+
+    // ========= Wishlist (persist to localStorage) =========
+    (function wishlist() {
+      const key = 'wishlist:hotel:skynest';
+      const btn = document.getElementById('wishBtn');
+      const icon = btn.querySelector('.heart');
+      const saved = localStorage.getItem(key) === '1';
+      if (saved) icon.classList.add('liked');
+      btn.addEventListener('click', () => {
+        const liked = icon.classList.toggle('liked');
+        localStorage.setItem(key, liked ? '1' : '0');
+        showToast(liked ? 'Added to wishlist' : 'Removed from wishlist');
+      });
+    })();
+
+    // ========= Share (Web Share API fallback) =========
+    (function share() {
+      const btn = document.getElementById('shareBtn');
+      btn.addEventListener('click', async () => {
+        const data = { title: 'SkyNest Boutique Hostel', text: 'Check out this stay!', url: location.href };
+        try {
+          if (navigator.share) {
+            await navigator.share(data);
+          } else {
+            await navigator.clipboard.writeText(data.url);
+            showToast('Link copied');
+          }
+        } catch (e) {
+          await navigator.clipboard.writeText(data.url);
+          showToast('Link copied');
+        }
+      });
+    })();
+
+    // ========= Gallery (thumb click, arrows, keys, lightbox) =========
+    (function gallery() {
+      const main = document.getElementById('mainImage');
+      const skeleton = document.getElementById('mainSkeleton');
+      const thumbs = Array.from(document.querySelectorAll('.thumb'));
+      const sources = [main.src, ...thumbs.map(t => t.src)];
+      let index = 0; // 0 = main src
+
+      function setMain(src) {
+        skeleton.style.display = 'block';
+        // Swap with error fallback
+        const img = new Image();
+        img.onload = () => { main.src = src; skeleton.style.display = 'none'; };
+        img.onerror = () => { skeleton.style.display = 'none'; showToast('Image failed to load'); };
+        img.src = src;
+      }
+
+      // Click a thumbnail: make it the main, and update index
+      thumbs.forEach((t, i) => {
+        t.addEventListener('click', () => {
+          index = i + 1; // because sources[0] was initial main
+          setMain(t.src);
+        });
+        t.addEventListener('keydown', (e) => { if (e.key === 'Enter') t.click(); });
+        t.tabIndex = 0; // focusable for a11y
+      });
+
+      // Navigation
+      function prev() { index = (index - 1 + sources.length) % sources.length; setMain(sources[index]); }
+      function next() { index = (index + 1) % sources.length; setMain(sources[index]); }
+      document.getElementById('prevBtn').addEventListener('click', prev);
+      document.getElementById('nextBtn').addEventListener('click', next);
+
+      // Keyboard arrows (left/right) & Enter to open lightbox
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') prev();
+        if (e.key === 'ArrowRight') next();
+        if (e.key === 'Enter' && document.activeElement === main) openLightbox();
+      });
+
+      // Touch swipe (simple)
+      let sx = 0; let dx = 0;
+      main.addEventListener('touchstart', (e) => { sx = e.touches[0].clientX; });
+      main.addEventListener('touchmove', (e) => { dx = e.touches[0].clientX - sx; });
+      main.addEventListener('touchend', () => { if (dx > 40) prev(); else if (dx < -40) next(); sx = 0; dx = 0; });
+
+      // Lightbox open/close
+      const lightbox = document.getElementById('lightbox');
+      const lbImg = document.getElementById('lightboxImg');
+      const lbClose = document.getElementById('lightboxClose');
+
+      function openLightbox() { lbImg.src = main.src; lightbox.classList.add('open'); }
+      function closeLightbox() { lightbox.classList.remove('open'); }
+
+      main.addEventListener('click', openLightbox);
+      lbClose.addEventListener('click', closeLightbox);
+      lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+      window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+
+      // Remove skeleton when initial main loads
+      if (main.complete) skeleton.style.display = 'none';
+      else main.addEventListener('load', () => skeleton.style.display = 'none');
+    })();
+
+
+    document.getElementById('dealBtn').addEventListener('click', function () {
+      const btn = this;
+      const oldText = btn.textContent;
+
+      // Show loading animation
+      btn.textContent = 'Loading…';
+      btn.disabled = true;
+
+      // After short delay, navigate to booking-details.html
+      setTimeout(() => {
+        btn.textContent = oldText;
+        btn.disabled = false;
+
+        // Redirect to another page
+        window.location.href = "booking-details.html";
+      }, 500);
+    });
+    document.querySelectorAll('.view-deal-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const name = encodeURIComponent(btn.dataset.name);
+        const price = encodeURIComponent(btn.dataset.price);
+        const image = encodeURIComponent(btn.dataset.image);
+
+        window.location.href = `booking-details.html?name=${name}&price=${price}&image=${image}`;
+      });
+    });
+  </script>
+</body>
+
+</html>

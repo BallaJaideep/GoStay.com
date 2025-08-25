@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Details - GoStay Hotels</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h2 {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .section {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        .property-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .property-info img {
+            width: 140px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .price-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .confirm-btn {
+            background: #ff7b00;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .confirm-btn:hover {
+            background: #e96a00;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="section">
+            <h2>Customer Details</h2>
+            <label>Full Name</label>
+            <input type="text" placeholder="Enter your full name">
+            <label>Email Address</label>
+            <input type="email" placeholder="Enter your email">
+            <label>Phone Number</label>
+            <input type="tel" placeholder="Enter your phone number">
+        </div>
+        <!-- <div class="section">
+            <h2>Property Details</h2>
+            <div class="property-info">
+                <img src="hotel-image.jpg" alt="Hotel Image">
+                <div>
+                    <h3>Grand Luxury Resort</h3>
+                    <p>123 Beach Road, Goa, India</p>
+                    <p>Deluxe Room with Sea View</p>
+                </div>
+            </div>
+        </div> -->
+        <div id="hotel-details"></div>
+
+
+        <div class="section">
+            <h2>Payment Details</h2>
+            <div class="price-box">
+                <span>Room Price (per night)</span>
+                <span>₹8,500</span>
+            </div>
+            <div class="price-box">
+                <span>Taxes & Fees</span>
+                <span>₹1,200</span>
+            </div>
+            <hr>
+            <div class="price-box" style="font-size: 20px;">
+                <span>Total</span>
+                <span>₹9,700</span>
+            </div>
+            <label>Payment Method</label>
+            <select>
+                <option>Credit Card</option>
+                <option>Debit Card</option>
+                <option>UPI</option>
+            </select>
+            <button class="confirm-btn">Confirm Booking</button>
+        </div>
+    </div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const name = params.get('name');
+        const price = params.get('price');
+        const image = params.get('image');
+
+        if (name && price && image) {
+            document.getElementById('hotel-details').innerHTML = `
+            <h1>${name}</h1>
+            <p>Price: ${price}</p>
+            <img src="${image}" alt="${name}" style="width:300px;">
+        `;
+        } else {
+            document.getElementById('hotel-details').innerHTML = `<p>No hotel selected.</p>`;
+        }
+    </script>
+
+</body>
+
+</html>
